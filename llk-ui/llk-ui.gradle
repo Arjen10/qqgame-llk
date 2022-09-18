@@ -1,0 +1,9 @@
+dependencies {
+    api(project(':llk-service'))
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'com.formdev:flatlaf'
+    implementation 'com.formdev:flatlaf-extras'
+    implementation 'com.miglayout:miglayout-swing'
+
+}

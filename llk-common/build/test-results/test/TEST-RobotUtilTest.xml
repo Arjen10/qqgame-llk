@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="RobotUtilTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-09-18T03:35:54" hostname="RIRF-UC01E1" time="0.113">
+  <properties/>
+  <testcase name="testSendMessage" classname="RobotUtilTest" time="0.113"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

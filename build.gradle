@@ -1,0 +1,57 @@
+plugins {
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
+}
+
+// 所有模块/项目的通用配置
+allprojects {
+    group 'com.github'
+    version '1.0'
+    repositories {
+        mavenLocal()
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        mavenCentral()
+    }
+}
+
+ext {
+    lombokVersion = '1.18.24'
+    jnaVersion = '5.12.1'
+    springBootVersion = '2.7.2'
+    flatlafVersion = '2.4'
+    miglayoutSwingVersion = '5.3'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: "io.spring.dependency-management"
+    // 指定编码格式
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+    //jdk11编译
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+
+    dependencyManagement {
+
+        dependencies {
+            imports {
+                mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
+            }
+
+            dependency "org.projectlombok:lombok:$lombokVersion"
+            // https://mvnrepository.com/artifact/net.java.dev.jna/jna
+            dependency "net.java.dev.jna:jna:$jnaVersion"
+            // https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform
+            dependency "net.java.dev.jna:jna-platform:$jnaVersion"
+            // https://mvnrepository.com/artifact/com.formdev/flatlaf
+            dependency "com.formdev:flatlaf:$flatlafVersion"
+            dependency "com.formdev:flatlaf-extras:$flatlafVersion"
+            // https://mvnrepository.com/artifact/com.miglayout/miglayout-swing
+            dependency "com.miglayout:miglayout-swing:$miglayoutSwingVersion"
+
+        }
+
+    }
+}

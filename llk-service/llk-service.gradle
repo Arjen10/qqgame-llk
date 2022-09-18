@@ -1,0 +1,16 @@
+dependencies {
+
+    api(project(":llk-pojo"))
+    api(project(":llk-common"))
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'net.java.dev.jna:jna-platform'
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+    implementation 'org.springframework:spring-context'
+
+    testImplementation 'junit:junit'
+
+}
+
