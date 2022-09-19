@@ -19,10 +19,12 @@ package com.formdev.flatlaf.demo;
 import com.github.ClearService;
 import com.github.FunctionService;
 import com.github.conf.LlkInitialize;
+import lombok.extern.slf4j.Slf4j;
 import net.miginfocom.swing.MigLayout;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import javax.swing.*;
+import java.awt.*;
 
 import static com.github.util.SpringBeanUtil.getBean;
 
@@ -31,13 +33,17 @@ import static com.github.util.SpringBeanUtil.getBean;
  *
  * @author Karl Tauber
  */
+@Slf4j
 class BasicComponentsPanel extends JPanel {
 
     private static final FunctionService FUNCTION_SERVICE = getBean(FunctionService.class);
 
-    private static final  ClearService CLEAR_SERVICE = getBean(ClearService.class);
+    private static final ClearService CLEAR_SERVICE = getBean(ClearService.class);
 
     private static final ThreadPoolTaskScheduler SCHEDULER = getBean(ThreadPoolTaskScheduler.class);
+
+    public static JTextArea textArea;
+
 
     BasicComponentsPanel() {
         initComponents();
@@ -49,12 +55,11 @@ class BasicComponentsPanel extends JPanel {
         JCheckBox enabledCheckBox = new JCheckBox();
 
         JLabel fileTypeLabel = new JLabel();
-        JSlider jSlider = new JSlider(0,500,400);
+        JSlider jSlider = new JSlider(0, 600, 400);
 
         JButton testButton = new JButton();
         JButton exportButton = new JButton();
-
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
         JScrollPane jScrollPane = new JScrollPane();
 
         //======== this ========
@@ -87,7 +92,12 @@ class BasicComponentsPanel extends JPanel {
         comboBoxLabel.setDisplayedMnemonic('C');
         comboBoxLabel.setLabelFor(enabledCheckBox);
         enabledCheckBox.addActionListener(e -> {
-            FUNCTION_SERVICE.lockAndUnLockCountdown();
+            try {
+                FUNCTION_SERVICE.lockAndUnLockCountdown();
+            } catch (NullPointerException ex) {
+                log.error("锁定倒计时失败！可能是没有初始化程序！");
+                enabledCheckBox.setSelected(false);
+            }
         });
         add(comboBoxLabel, "cell 0 4");
 
@@ -104,17 +114,32 @@ class BasicComponentsPanel extends JPanel {
         add(jSlider, "cell 3 4,growx");
 
         testButton.setText("初始化");
-        testButton.addActionListener(e -> LlkInitialize.initHandleAndRect());
+        testButton.addActionListener(e -> {
+            try {
+                LlkInitialize.initHandleAndRect();
+            } catch (NullPointerException ex) {
+                log.error("初始化程序失败！检查是否打开了连连看游戏！");
+            }
+        });
         add(testButton, "cell 1 14,growx");
 
         exportButton.setText("全图秒杀");
         exportButton.addActionListener(e -> {
-            SCHEDULER.execute(CLEAR_SERVICE::clearAll);
+            SCHEDULER.execute(() -> {
+                try {
+                    CLEAR_SERVICE.clearAll();
+                } catch (Exception ex) {
+                    log.error(ex.getMessage());
+                }
+            });
         });
         add(exportButton, "cell 2 14,growx");
 
+        textArea.setEditable(false);
+        textArea.setRows(9);
+        textArea.setBackground(Color.WHITE);
         jScrollPane.setViewportView(textArea);
-        add(jScrollPane, "cell 2 16,growx");
+        add(jScrollPane, "cell 0 16 16,growx");
     }
 
 }

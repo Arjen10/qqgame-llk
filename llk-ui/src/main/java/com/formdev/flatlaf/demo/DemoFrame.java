@@ -50,6 +50,7 @@ class DemoFrame extends JFrame {
     private final String[] availableFontFamilyNames;
     private int initialFontMenuItemCount = -1;
 
+
     DemoFrame() {
         int tabIndex = DemoPrefs.getState().getInt(FlatLafDemo.KEY_TAB, 0);
 

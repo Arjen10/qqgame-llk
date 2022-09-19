@@ -1,7 +1,11 @@
 dependencies {
     api(project(':llk-service'))
 
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
     implementation 'com.formdev:flatlaf'
     implementation 'com.formdev:flatlaf-extras'
     implementation 'com.miglayout:miglayout-swing'

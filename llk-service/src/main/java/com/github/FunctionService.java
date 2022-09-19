@@ -10,7 +10,7 @@ public interface FunctionService {
     /**
      * 锁定倒计时
      */
-    void lockAndUnLockCountdown();
+    void lockAndUnLockCountdown() throws NullPointerException;
 
     /**
      * 调整消除速度
