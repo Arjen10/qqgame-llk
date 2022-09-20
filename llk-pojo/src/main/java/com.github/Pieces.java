@@ -79,7 +79,7 @@ public class Pieces {
      *
      * @return 返回上图b的棋子集合，返回顺序为b1、b2、b3、b4，如果不存在则是null
      */
-    public com.github.PiecesBoxVO getBox(List<List<Pieces>> ps) {
+    public PiecesBoxVO getBox(List<List<Pieces>> ps) {
         if (Objects.isNull(ps) || ps.isEmpty()) {
             throw new NullPointerException("集合不准为空！");
         }

@@ -1,7 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '2.7.2'
-        lombokVersion = '1.18.24'
+        springDependencyManagement = '1.0.11.RELEASE'
         jnaVersion = '5.12.1'
         flatlafVersion = '2.4'
         miglayoutSwingVersion = '5.3'
@@ -10,7 +10,7 @@ buildscript {
 
 plugins {
     id 'org.springframework.boot' version "$springBootVersion" apply false
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
+    id 'io.spring.dependency-management' version "$springDependencyManagement" apply false
 }
 
 // 所有模块/项目的通用配置
@@ -26,6 +26,7 @@ allprojects {
     }
 }
 
+//所有的子模块
 subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
@@ -45,7 +46,6 @@ subprojects {
     dependencyManagement {
 
         dependencies {
-            dependency "org.projectlombok:lombok:$lombokVersion"
             // https://mvnrepository.com/artifact/net.java.dev.jna/jna
             dependency "net.java.dev.jna:jna:$jnaVersion"
             // https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform
@@ -57,7 +57,6 @@ subprojects {
             dependency "com.miglayout:miglayout-swing:$miglayoutSwingVersion"
 
         }
-
     }
 
     //可以减少一个annotationProcessor使用
