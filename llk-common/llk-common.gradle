@@ -2,18 +2,18 @@ description = '连连看公共模块部分'
 
 dependencies {
     api(project(':llk-pojo'))
+    api 'org.springframework.boot:spring-boot-starter-logging'
+
     compileOnly 'org.projectlombok:lombok'
 
-    annotationProcessor 'org.projectlombok:lombok'
     //springboot的插件
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
 
     implementation 'net.java.dev.jna:jna'
     implementation 'net.java.dev.jna:jna-platform'
 
     implementation 'org.springframework:spring-context'
     implementation 'org.springframework.boot:spring-boot'
-    implementation 'org.springframework.boot:spring-boot-starter-logging'
 
     testImplementation 'junit:junit'
 }

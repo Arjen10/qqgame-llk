@@ -1,4 +1,15 @@
+buildscript {
+    ext {
+        springBootVersion = '2.7.2'
+        lombokVersion = '1.18.24'
+        jnaVersion = '5.12.1'
+        flatlafVersion = '2.4'
+        miglayoutSwingVersion = '5.3'
+    }
+}
+
 plugins {
+    id 'org.springframework.boot' version "$springBootVersion" apply false
     id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
 }
 
@@ -15,31 +26,25 @@ allprojects {
     }
 }
 
-ext {
-    lombokVersion = '1.18.24'
-    jnaVersion = '5.12.1'
-    springBootVersion = '2.7.2'
-    flatlafVersion = '2.4'
-    miglayoutSwingVersion = '5.3'
-}
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
+    apply plugin: "org.springframework.boot"
     apply plugin: "io.spring.dependency-management"
-    // 指定编码格式
-    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
-    //jdk11编译
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+
+    // 编译相关参数
+    compileJava {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+        options.encoding = 'UTF-8'
+        options.compilerArgs =  [
+                '-Xlint:all', '-Xlint:-processing'
+        ]
+    }
 
     dependencyManagement {
 
         dependencies {
-            imports {
-                mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
-            }
-
             dependency "org.projectlombok:lombok:$lombokVersion"
             // https://mvnrepository.com/artifact/net.java.dev.jna/jna
             dependency "net.java.dev.jna:jna:$jnaVersion"
@@ -54,4 +59,12 @@ subprojects {
         }
 
     }
+
+    //可以减少一个annotationProcessor使用
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
 }
