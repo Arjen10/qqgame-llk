@@ -18,7 +18,7 @@ pom.xml
 activemq-data/
 
 classes/
-llk-ui/build/
+*/build/
 buildSrc/build
 /spring-*/build
 /spring-core/graalvm/build
