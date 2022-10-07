@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 
+import static com.github.util.SpringBeanUtil.getBean;
+
 /**
  * @author Rodrigo Garcia Lima (email: rodgarcialima@gmail.com | github: rodgarcialima)
  * @see ch.qos.logback.core.AppenderBase
@@ -58,7 +60,7 @@ public class Appender extends AppenderBase<ILoggingEvent> {
     public void start() {
         patternLayout = new PatternLayout();
         patternLayout.setContext(getContext());
-        patternLayout.setPattern("%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n");
+        patternLayout.setPattern("%d{HH:mm:ss} 连连看辅助 - %msg%n");
         patternLayout.start();
 
         super.start();
@@ -68,10 +70,13 @@ public class Appender extends AppenderBase<ILoggingEvent> {
     protected void append(ILoggingEvent event) {
         // Formata mensagem do log
         String formattedMsg = patternLayout.doLayout(event);
+        if (formattedMsg.contains("FlatLafDemo") || formattedMsg.contains("SpringApplication")) {
+            return;
+        }
         // Forma segura de atualizar o JTextpane
         SwingUtilities.invokeLater(() -> {
             // Alias para o JTextPane no frame da aplicação
-            JTextArea textPane = BasicComponentsPanel.textArea;
+            JTextArea textPane = FlatLafDemo.jTextArea;
             try {
                 // Trunca linhas para economizar memória
                 // Quando atingir 2000 linhas, eu quero que

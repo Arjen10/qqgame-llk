@@ -36,14 +36,6 @@ import static com.github.util.SpringBeanUtil.getBean;
 @Slf4j
 class BasicComponentsPanel extends JPanel {
 
-    private static final FunctionService FUNCTION_SERVICE = getBean(FunctionService.class);
-
-    private static final ClearService CLEAR_SERVICE = getBean(ClearService.class);
-
-    private static final ThreadPoolTaskScheduler SCHEDULER = getBean(ThreadPoolTaskScheduler.class);
-
-    public static JTextArea textArea;
-
 
     BasicComponentsPanel() {
         initComponents();
@@ -59,7 +51,6 @@ class BasicComponentsPanel extends JPanel {
 
         JButton testButton = new JButton();
         JButton exportButton = new JButton();
-        textArea = new JTextArea();
         JScrollPane jScrollPane = new JScrollPane();
 
         //======== this ========
@@ -93,7 +84,8 @@ class BasicComponentsPanel extends JPanel {
         comboBoxLabel.setLabelFor(enabledCheckBox);
         enabledCheckBox.addActionListener(e -> {
             try {
-                FUNCTION_SERVICE.lockAndUnLockCountdown();
+                FunctionService functionService = getBean(FunctionService.class);
+                functionService.lockAndUnLockCountdown();
             } catch (NullPointerException ex) {
                 log.error("锁定倒计时失败！可能是没有初始化程序！");
                 enabledCheckBox.setSelected(false);
@@ -108,7 +100,8 @@ class BasicComponentsPanel extends JPanel {
         fileTypeLabel.setDisplayedMnemonic('C');
         fileTypeLabel.setLabelFor(jSlider);
         jSlider.addChangeListener(e -> {
-            FUNCTION_SERVICE.changeSpeed(jSlider.getValue());
+            FunctionService functionService = getBean(FunctionService.class);
+            functionService.changeSpeed(jSlider.getValue());
         });
         add(fileTypeLabel, "cell 2 4");
         add(jSlider, "cell 3 4,growx");
@@ -125,9 +118,11 @@ class BasicComponentsPanel extends JPanel {
 
         exportButton.setText("全图秒杀");
         exportButton.addActionListener(e -> {
-            SCHEDULER.execute(() -> {
+            ThreadPoolTaskScheduler scheduler = getBean(ThreadPoolTaskScheduler.class);
+            scheduler.execute(() -> {
                 try {
-                    CLEAR_SERVICE.clearAll();
+                    ClearService clearService = getBean(ClearService.class);
+                    clearService.clearAll();
                 } catch (Exception ex) {
                     log.error(ex.getMessage());
                 }
@@ -135,10 +130,7 @@ class BasicComponentsPanel extends JPanel {
         });
         add(exportButton, "cell 2 14,growx");
 
-        textArea.setEditable(false);
-        textArea.setRows(9);
-        textArea.setBackground(Color.WHITE);
-        jScrollPane.setViewportView(textArea);
+        jScrollPane.setViewportView(FlatLafDemo.jTextArea);
         add(jScrollPane, "cell 0 16 16,growx");
     }
 

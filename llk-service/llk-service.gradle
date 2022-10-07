@@ -4,6 +4,7 @@ dependencies {
     api(project(":llk-common"))
 
     compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
     implementation 'net.java.dev.jna:jna-platform'
     implementation 'org.springframework:spring-context'

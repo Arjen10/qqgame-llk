@@ -16,8 +16,8 @@
 
 package com.formdev.flatlaf.demo;
 
-import java.awt.Dimension;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import javax.swing.*;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatInspector;
@@ -28,7 +28,10 @@ import com.github.util.SpringBeanUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 /**
  * @author Karl Tauber
@@ -40,6 +43,14 @@ public class FlatLafDemo {
     static final String KEY_TAB = "tab";
 
     static boolean screenshotsMode = Boolean.parseBoolean(System.getProperty("flatlaf.demo.screenshotsMode"));
+
+    static JTextArea jTextArea = new JTextArea();
+
+    static {
+        jTextArea.setEditable(false);
+        jTextArea.setRows(9);
+        jTextArea.setBackground(Color.WHITE);
+    }
 
     public static void main(String[] args) {
         ConfigurableApplicationContext run = SpringApplication.run(FlatLafDemo.class, args);
@@ -63,7 +74,7 @@ public class FlatLafDemo {
             // create frame
             var frame = new DemoFrame();
             if (FlatLafDemo.screenshotsMode)
-                frame.setPreferredSize(new Dimension(1660, 840));
+                frame.setSize(new Dimension(2500, 840));
             // show frame
             frame.pack();
             frame.setLocationRelativeTo(null);

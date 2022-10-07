@@ -5,7 +5,7 @@ dependencies {
     api 'org.springframework.boot:spring-boot-starter-logging'
 
     compileOnly 'org.projectlombok:lombok'
-
+    annotationProcessor 'org.projectlombok:lombok'
     //springboot的插件
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
 

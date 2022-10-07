@@ -2,4 +2,5 @@ description = '连连看实体模块部分'
 
 dependencies {
     compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 }
